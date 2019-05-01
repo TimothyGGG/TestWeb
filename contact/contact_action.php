@@ -1,6 +1,3 @@
-<html>
-<body>
-
 <?php
     ini_set( 'display_errors', 1 );
     error_reporting( E_ALL );
@@ -13,6 +10,3 @@
     mail($to,$subject,$message, $headers);
     echo "Your message was sent by email.";
 ?>
-
-</body>
-</html>
