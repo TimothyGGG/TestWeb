@@ -69,6 +69,9 @@ input[type=submit]:hover {
     <p>Send me an email at contact@timothygijbels.nl, or use the contact form below:</p>
 
 <form name="contact" method="POST" data-netlify="true">
+  <p class="hidden">
+  <label>Don’t fill this out if you're human (This is an anti-bot check): <input name="bot-field" /></label>
+</p>
   <p>
     <label>Your First and Last Name: <input type="text" name="name" /></label>
   </p>
