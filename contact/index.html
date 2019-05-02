@@ -68,10 +68,7 @@ input[type=submit]:hover {
 
     <p>Send me an email at contact@timothygijbels.nl, or use the contact form below:</p>
 
-<form name="contact" method="POST" netlify-honeypot="bot-field" data-netlify="true">
-  <p class="hidden">
-  <label>Don’t fill this out if you're human (This is an anti-bot check): <input name="bot-field" /></label>
-</p>
+<form name="contact" method="POST" data-netlify-recaptcha="true" data-netlify="true">
   <p>
     <label>Your First and Last Name: <input type="text" name="name" /></label>
   </p>
@@ -85,7 +82,7 @@ input[type=submit]:hover {
     <label>Message: <textarea name="message"></textarea></label>
   </p>
   <p>
-    <button type="submit">Send</button>
+    <div data-netlify-recaptcha="true"></div>    <button type="submit">Send</button>
   </p>
 </form>
 
