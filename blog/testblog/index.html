@@ -72,10 +72,10 @@
     <p>I have not yet written any stories about myself.</p>
 
     <div class="tab">
-      <button class="tablinks" onclick="openCity(event, 'London')" id="defaultOpen">London</button>
+      <button class="tablinks" onclick="openCity(event, 'London')">London</button>
       <button class="tablinks" onclick="openCity(event, 'Paris')">Paris</button>
       <button class="tablinks" onclick="openCity(event, 'Tokyo')">Tokyo</button>
-      <button class="tablinks" href=testblog/>Tokyo</button>
+      <button class="tablinks" onclick="openCity(event, 'TestBlog')" id="defaultOpen">TestBlog</button>
     </div>
 
     <div id="London" class="tabcontent">
@@ -91,6 +91,11 @@
     <div id="Tokyo" class="tabcontent">
       <h3>Tokyo</h3>
       <p>Tokyo is the capital of Japan.</p>
+    </div>
+
+    <div id="TestBlog" class="tabcontent">
+      <h3>TestBlog</h3>
+      <p>This is what happened today.</p>
     </div>
 
     <script>
