@@ -71,11 +71,11 @@
 
     <div class="tab">
       <button class="tablinks" onclick="window.location.href = 'https://www.timothygijbels.nl/blog/someevent/';">Some event that happened to me</button>
-      <button class="tablinks" onclick="window.location.href = 'https://www.timothygijbels.nl/blog/anotherevent/';" id="defaultOpen">Another event</button>
+      <button class="tablinks" onclick="openCity(event, 'anotherevent')" id="defaultOpen">Another event</button>
       <button class="tablinks" onclick="window.location.href = 'https://www.timothygijbels.nl/blog/testblog/';">TestBlog</button>
     </div>
 
-    <div id="London" class="tabcontent">
+    <div id="anotherevent" class="tabcontent">
       <h3>Another event that happened to me</h3>
       <p>A second story that happened recently.</p>
     </div>
@@ -98,10 +98,6 @@
     // Get the element with id="defaultOpen" and click on it
     document.getElementById("defaultOpen").click();
     </script>
-
-
-
-
 
 
     <footer class="w3-container w3-padding-64 w3-center w3-black w3-xlarge">
