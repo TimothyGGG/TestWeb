@@ -72,27 +72,12 @@
     <div class="tab">
       <button class="tablinks" onclick="window.location.href = 'https://www.timothygijbels.nl/blog/someevent/';">Some event that happened to me</button>
       <button class="tablinks" onclick="window.location.href = 'https://www.timothygijbels.nl/blog/anotherevent/';">Another event</button>
-      <button class="tablinks" onclick="window.location.href = 'https://www.timothygijbels.nl/blog/testblog/';" id="defaultOpen">TestBlog</button>
+      <button class="tablinks" onclick="openCity(event, 'testblog')" id="defaultOpen">TestBlog</button>
     </div>
 
-    <div id="London" class="tabcontent">
-      <h3>London</h3>
-      <p>London is the capital city of England.</p>
-    </div>
-
-    <div id="Paris" class="tabcontent">
-      <h3>Paris</h3>
-      <p>Paris is the capital of France.</p>
-    </div>
-
-    <div id="Tokyo" class="tabcontent">
-      <h3>Tokyo</h3>
-      <p>Tokyo is the capital of Japan.</p>
-    </div>
-
-    <div id="TestBlog" class="tabcontent">
-      <h3>TestBlog</h3>
-      <p>This is what happened today.</p>
+    <div id="testblog" class="tabcontent">
+      <h3>Testblog</h3>
+      <p>This is my third test blogpost.</p>
     </div>
 
     <script>
@@ -113,11 +98,6 @@
     // Get the element with id="defaultOpen" and click on it
     document.getElementById("defaultOpen").click();
     </script>
-
-
-
-
-
 
     <footer class="w3-container w3-padding-64 w3-center w3-black w3-xlarge">
       <a href="https://www.facebook.com/timmy.gijbels"><i class="fa fa-facebook-official"></i></a>

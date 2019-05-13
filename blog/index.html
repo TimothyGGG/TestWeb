@@ -72,24 +72,14 @@
     <p>I have not yet written any stories about myself. The current buttons are just placeholders.</p>
 
     <div class="tab">
-      <button class="tablinks" onclick="window.location.href = 'https://www.timothygijbels.nl/blog/someevent/';">Some event that happened to me</button>
+      <button class="tablinks" onclick="openCity(event, 'someevent')" id="defaultOpen">Some event that happened to me</button>
       <button class="tablinks" onclick="window.location.href = 'https://www.timothygijbels.nl/blog/anotherevent/';">Another event</button>
       <button class="tablinks" onclick="window.location.href = 'https://www.timothygijbels.nl/blog/testblog/';">TestBlog</button>
     </div>
 
-    <div id="London" class="tabcontent">
-      <h3>London</h3>
-      <p>London is the capital city of England.</p>
-    </div>
-
-    <div id="Paris" class="tabcontent">
-      <h3>Paris</h3>
-      <p>Paris is the capital of France.</p>
-    </div>
-
-    <div id="Tokyo" class="tabcontent">
-      <h3>Tokyo</h3>
-      <p>Tokyo is the capital of Japan.</p>
+    <div id="someevent" class="tabcontent">
+      <h3>Some event that happened to me</h3>
+      <p>Hello, this is my most recent story.</p>
     </div>
 
     <script>
@@ -110,27 +100,6 @@
     // Get the element with id="defaultOpen" and click on it
     document.getElementById("defaultOpen").click();
     </script>
-
-    <script>
-    function openBlog(evt, cityName) {
-      var i, tabcontent, tablinks;
-      tabcontent = document.getElementsByClassName("tabcontent");
-      for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
-      }
-      tablinks = document.getElementsByClassName("tablinks");
-      for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace(" active", "");
-      }
-      document.getElementById(cityName).style.display = "block";
-      evt.currentTarget.className += " active";
-    }
-
-    // Get the element with id="defaultOpen" and click on it
-    document.getElementById("defaultOpen").click();
-    </script>
-
-
 
 
     <footer class="w3-container w3-padding-64 w3-center w3-black w3-xlarge">
