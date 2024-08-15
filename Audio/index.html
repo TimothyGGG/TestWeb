@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Podcast Player</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 90%;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+        }
+        audio {
+            width: 100%;
+            margin-top: 10px;
+        }
+        .controls {
+            margin-top: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        @media (max-width: 600px) {
+            button {
+                width: 100%;
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Podcast Player</h1>
+        <audio id="podcastPlayer" controls>
+            <source id="audioSource" src="" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+        <div class="controls">
+            <button onclick="playNext()">Play Next</button>
+        </div>
+    </div>
+
+    <script>
+        // List of audio files in chronological order
+        const audioFiles = [
+            'https://docs.google.com/uc?export=open&id=1AcXjmJj8ih2LSimkTDLImw9mpxPCziw_',
+            'https://docs.google.com/uc?export=open&id=106KIC6kkTiGcev_cpViEgQ3YGVzYIWik'
+            // Add more audio files here
+        ];
+
+        let currentTrack = 0;
+        const audioElement = document.getElementById('podcastPlayer');
+        const sourceElement = document.getElementById('audioSource');
+
+        function playNext() {
+            if (currentTrack < audioFiles.length) {
+                sourceElement.src = audioFiles[currentTrack];
+                audioElement.load();
+                audioElement.play();
+                currentTrack++;
+            } else {
+                alert('No more tracks to play.');
+            }
+        }
+
+        // Optionally, you can auto-play the next track when the current one ends
+        audioElement.addEventListener('ended', playNext);
+
+        // Initialize by playing the first track
+        playNext();
+    </script>
+</body>
+</html>
