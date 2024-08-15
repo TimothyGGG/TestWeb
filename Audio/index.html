@@ -52,7 +52,7 @@
     <div class="container">
         <h1>Podcast Player</h1>
         <audio id="podcastPlayer" controls>
-            <source id="audioSource" src="https://drive.google.com/uc?export=download&id=106KIC6kkTiGcev_cpViEgQ3YGVzYIWik" type="audio/mp3">
+            <source id="audioSource" src="" type="audio/mp3">
             Your browser does not support the audio element.
         </audio>
         <div class="controls">
@@ -71,11 +71,18 @@
         const audioElement = document.getElementById('podcastPlayer');
         const sourceElement = document.getElementById('audioSource');
 
+        function startPlayback() {
+            playNext();
+            document.querySelector('.controls').innerHTML = '<button onclick="playNext()">Play Next</button>';
+        }
+
         function playNext() {
+            console.log(`Current track: ${currentTrack}`);
             if (currentTrack < audioFiles.length) {
                 sourceElement.src = audioFiles[currentTrack];
+                console.log(`Playing: ${audioFiles[currentTrack]}`);
                 audioElement.load();
-                audioElement.play();
+                audioElement.play().catch(error => console.error('Playback error:', error));
                 currentTrack++;
             } else {
                 alert('No more tracks to play.');
