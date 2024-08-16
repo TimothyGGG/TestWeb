@@ -129,6 +129,23 @@
             audioElement.load();
             audioElement.play().catch(error => console.error('Playback error:', error));
             currentTrack = index;
+
+            // Set Media Session API metadata
+            if ('mediaSession' in navigator) {
+                navigator.mediaSession.metadata = new MediaMetadata({
+                    title: audioFiles[index].title,
+                    artist: 'Author', // You can customize this
+                    album: 'Audiobook', // You can customize this
+                    artwork: [
+                        { src: 'https://example.com/cover.jpg', sizes: '96x96', type: 'image/png' } // Update the cover image URL
+                    ]
+                });
+
+                navigator.mediaSession.setActionHandler('play', () => audioElement.play());
+                navigator.mediaSession.setActionHandler('pause', () => audioElement.pause());
+                navigator.mediaSession.setActionHandler('seekbackward', () => skip(-30));
+                navigator.mediaSession.setActionHandler('seekforward', () => skip(30));
+            }
         }
 
         function playNext() {
@@ -153,8 +170,7 @@
     <footer class="w3-container w3-padding-64 w3-center w3-black w3-xlarge">
         <a href="https://www.facebook.com/timmy.gijbels"><i class="fa fa-facebook-official"></i></a>
         <a href="https://www.linkedin.com/in/timothygijbels/"><i class="fa fa-linkedin"></i></a>
-        <p class="w3-medium">
-        </p>
+        <p class="w3-medium"></p>
     </footer>
 </body>
 </html>
