@@ -50,8 +50,8 @@
             margin-top: 20px;
             list-style-type: none;
             padding: 0;
-            text-align: left; /* Align list items to the left */
-            margin-left: 20px; /* Optional: adjust this to control left margin */
+            text-align: left;
+            margin-left: 20px;
         }
         .track-list li {
             margin: 10px 0;
@@ -64,26 +64,18 @@
         .track-list a:hover {
             text-decoration: underline;
         }
-
-            /* Other styles... */
         .track-list li.current {
             font-weight: bold;
-            color: #ff5722; /* Highlight color */
-        }
-
-        .track-list li {
-            margin: 10px 0;
+            color: #ff5722;
         }
     </style>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/3/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
 </head>
 <body>
-    <!-- Navigation -->
     <nav class="w3-bar w3-black">
         <a href="../" class="w3-button w3-bar-item">Home</a>
         <a href="../aboutme/" class="w3-button w3-bar-item">About Me</a>
-        <!-- <a href="../blog/" class="w3-button w3-bar-item">Blog</a> -->
         <a href="../contact/" class="w3-button w3-bar-item">Contact</a>
     </nav>
 
@@ -98,6 +90,8 @@
             Your browser does not support the audio element.
         </audio>
         <div class="controls">
+            <!-- Add a "Start Playback" button -->
+            <button onclick="playTrack(0);">Start Playback</button>
             <button onclick="skip(-30)">-30s</button>
             <button onclick="skip(30)">+30s</button>
             <button onclick="playNext()">Play Next</button>
@@ -108,7 +102,6 @@
     </div>
 
     <script>
-        // List of audio files and their titles
         const audioFiles = [
             { src: 'https://www.dropbox.com/scl/fi/856zqr0gvrlrnwsykrnyg/000.mp3?rlkey=ed012wj4b4o7xwu5gl7mybrtk&dl=1', title: 'Intro (by Timothy)' },
             { src: 'https://www.dropbox.com/scl/fi/5yz0kmmhvfapc9ttf4rmj/101.mp3?rlkey=u7rxrn806wp6prk4i843hxpwy&dl=1', title: 'Book 1 Chapter 1 (by Timothy)' },
@@ -116,16 +109,14 @@
             { src: 'https://www.dropbox.com/scl/fi/su0dka53xb3bdjjqwrtjb/103.mp3?rlkey=lmkqqudgba70sk7ivgq8258e5&dl=1', title: 'Book 1 Chapter 3 (by Eva S)' },
             { src: 'https://www.dropbox.com/scl/fi/a936ohticcfp3rwn0xgb7/104.mp3?rlkey=xz3rp3faje8u2ehxu5uqbmjie&dl=1', title: 'Book 1 Chapter 4 (by Elena P)' },
             { src: 'https://www.dropbox.com/scl/fi/qy74oxudr4bs5w7llbdu3/105.mp3?rlkey=1jnf9e1s05lpei94xqcd12s5s&dl=1', title: 'Book 1 Chapter 5 (by Bram vK)' },
-            { src: 'https://www.dropbox.com/scl/fi/y0mhwr6th14fygkkoapsa/106.mp3?rlkey=903w5hew3f7z2d2s9t93z33st&dl=1', title: 'Book 1 Chapter 6 (by Jasmijn dV)' },
-            // Add more audio files here
+            { src: 'https://www.dropbox.com/scl/fi/y0mhwr6th14fygkkoapsa/106.mp3?rlkey=903w5hew3f7z2d2s9t93z33st&dl=1', title: 'Book 1 Chapter 6 (by Jasmijn dV)' }
         ];
-    
-        let currentTrack = -1; // Initialize to -1, meaning no track is currently playing
+
+        let currentTrack = -1;
         const audioElement = document.getElementById('podcastPlayer');
         const sourceElement = document.getElementById('audioSource');
         const trackList = document.getElementById('trackList');
-    
-        // Initialize track list
+
         function initializeTrackList() {
             audioFiles.forEach((file, index) => {
                 const li = document.createElement('li');
@@ -135,39 +126,43 @@
                 trackList.appendChild(li);
             });
         }
-    
+
         function updateTrackList() {
             const items = trackList.getElementsByTagName('li');
             for (let i = 0; i < items.length; i++) {
                 items[i].classList.toggle('current', i === currentTrack);
             }
         }
-    
+
         function playTrack(index) {
             sourceElement.src = audioFiles[index].src;
             audioElement.load();
-            audioElement.play().catch(error => console.error('Playback error:', error));
+            audioElement.play().then(() => {
+                console.log('Playback started');
+            }).catch(error => {
+                console.error('Playback error:', error);
+                alert('Playback error: ' + error.message);
+            });
             currentTrack = index;
             updateTrackList();
-    
-            // Set Media Session API metadata
+
             if ('mediaSession' in navigator) {
                 navigator.mediaSession.metadata = new MediaMetadata({
                     title: audioFiles[index].title,
-                    artist: 'Some people', // You can customize this
-                    album: 'Lord of the Rings', // You can customize this
+                    artist: 'Some people',
+                    album: 'Lord of the Rings',
                     artwork: [
-                        { src: 'lotrcover.png', sizes: '96x96', type: 'image/png' } // Update the cover image URL
+                        { src: 'lotrcover.png', sizes: '96x96', type: 'image/png' }
                     ]
                 });
-    
+
                 navigator.mediaSession.setActionHandler('play', () => audioElement.play());
                 navigator.mediaSession.setActionHandler('pause', () => audioElement.pause());
                 navigator.mediaSession.setActionHandler('seekbackward', () => skip(-30));
                 navigator.mediaSession.setActionHandler('seekforward', () => skip(30));
             }
         }
-    
+
         function playNext() {
             if (currentTrack < audioFiles.length - 1) {
                 playTrack(currentTrack + 1);
@@ -175,15 +170,13 @@
                 alert('No more tracks to play.');
             }
         }
-    
+
         function skip(seconds) {
             audioElement.currentTime += seconds;
         }
-    
-        // Initialize track list on page load
+
         initializeTrackList();
-    
-        // Optionally, you can auto-play the next track when the current one ends
+
         audioElement.addEventListener('ended', playNext);
     </script>    
 
@@ -192,5 +185,3 @@
         <a href="https://www.linkedin.com/in/timothygijbels/"><i class="fa fa-linkedin"></i></a>
         <p class="w3-medium"></p>
     </footer>
-</body>
-</html>
