@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Podcast Player</title>
+    <title>Lord of the Rings</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -63,19 +63,21 @@
             text-decoration: underline;
         }
     </style>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/3/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
 </head>
 <body>
-        <!-- Navigation -->
-        <nav class="w3-bar w3-black">
-            <a href="../" class="w3-button w3-bar-item">Home</a>
-            <a href="../aboutme/" class="w3-button w3-bar-item">About Me</a>
-      <!--       <a href="../blog/" class="w3-button w3-bar-item">Blog</a> -->
-            <a href="../contact/" class="w3-button w3-bar-item">Contact</a>
-          </nav>
-      
-          <h2>Here be dragons!</h2>
-      
-          <p>The best audiobook you will ever listen to...</p>
+    <!-- Navigation -->
+    <nav class="w3-bar w3-black">
+        <a href="../" class="w3-button w3-bar-item">Home</a>
+        <a href="../aboutme/" class="w3-button w3-bar-item">About Me</a>
+        <!-- <a href="../blog/" class="w3-button w3-bar-item">Blog</a> -->
+        <a href="../contact/" class="w3-button w3-bar-item">Contact</a>
+    </nav>
+
+    <h2>Here be dragons!</h2>
+
+    <p>The best audiobook you will ever listen to...</p>
 
     <div class="container">
         <h1>The Lord of the Rings</h1>
@@ -84,6 +86,8 @@
             Your browser does not support the audio element.
         </audio>
         <div class="controls">
+            <button onclick="skip(-30)">-30s</button>
+            <button onclick="skip(30)">+30s</button>
             <button onclick="playNext()">Play Next</button>
         </div>
         <ul class="track-list" id="trackList">
@@ -114,7 +118,7 @@
             audioFiles.forEach((file, index) => {
                 const li = document.createElement('li');
                 li.innerHTML = `
-                    <a href="#" onclick="playTrack(${index}); return false;">${file.title}</a> - <span id="views-${index}">0</span> views
+                    <a href="#" onclick="playTrack(${index}); return false;">${file.title}</a>
                 `;
                 trackList.appendChild(li);
             });
@@ -124,14 +128,7 @@
             sourceElement.src = audioFiles[index].src;
             audioElement.load();
             audioElement.play().catch(error => console.error('Playback error:', error));
-            updateViews(index);
             currentTrack = index;
-        }
-
-        function updateViews(index) {
-            const viewElement = document.getElementById(`views-${index}`);
-            let views = parseInt(viewElement.textContent) || 0;
-            viewElement.textContent = views + 1;
         }
 
         function playNext() {
@@ -140,6 +137,10 @@
             } else {
                 alert('No more tracks to play.');
             }
+        }
+
+        function skip(seconds) {
+            audioElement.currentTime += seconds;
         }
 
         // Initialize track list on page load
