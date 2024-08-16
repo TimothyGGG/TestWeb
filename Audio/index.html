@@ -65,8 +65,20 @@
     </style>
 </head>
 <body>
+        <!-- Navigation -->
+        <nav class="w3-bar w3-black">
+            <a href="../" class="w3-button w3-bar-item">Home</a>
+            <a href="../aboutme/" class="w3-button w3-bar-item">About Me</a>
+      <!--       <a href="../blog/" class="w3-button w3-bar-item">Blog</a> -->
+            <a href="../contact/" class="w3-button w3-bar-item">Contact</a>
+          </nav>
+      
+          <h2>Here be dragons!</h2>
+      
+          <p>The best audiobook you will ever listen to...</p>
+
     <div class="container">
-        <h1>Podcast Player</h1>
+        <h1>The Lord of the Rings</h1>
         <audio id="podcastPlayer" controls>
             <source id="audioSource" src="" type="audio/mp3">
             Your browser does not support the audio element.
@@ -82,13 +94,13 @@
     <script>
         // List of audio files and their titles
         const audioFiles = [
-            { src: 'https://www.dropbox.com/scl/fi/856zqr0gvrlrnwsykrnyg/000.mp3?rlkey=ed012wj4b4o7xwu5gl7mybrtk&dl=1', title: 'Track 000' },
-            { src: 'https://www.dropbox.com/scl/fi/5yz0kmmhvfapc9ttf4rmj/101.mp3?rlkey=u7rxrn806wp6prk4i843hxpwy&dl=1', title: 'Track 101' },
-            { src: 'https://www.dropbox.com/scl/fi/pbkisu81thkx3lxog850w/102.mp3?rlkey=pi1ek8zdcypfrt6zf55lay4di&dl=1', title: 'Track 102' },
-            { src: 'https://www.dropbox.com/scl/fi/su0dka53xb3bdjjqwrtjb/103.mp3?rlkey=lmkqqudgba70sk7ivgq8258e5&dl=1', title: 'Track 103' },
-            { src: 'https://www.dropbox.com/scl/fi/a936ohticcfp3rwn0xgb7/104.mp3?rlkey=xz3rp3faje8u2ehxu5uqbmjie&dl=1', title: 'Track 104' },
-            { src: 'https://www.dropbox.com/scl/fi/qy74oxudr4bs5w7llbdu3/105.mp3?rlkey=1jnf9e1s05lpei94xqcd12s5s&dl=1', title: 'Track 105' },
-            { src: 'https://www.dropbox.com/scl/fi/y0mhwr6th14fygkkoapsa/106.mp3?rlkey=903w5hew3f7z2d2s9t93z33st&dl=1', title: 'Track 106' },
+            { src: 'https://www.dropbox.com/scl/fi/856zqr0gvrlrnwsykrnyg/000.mp3?rlkey=ed012wj4b4o7xwu5gl7mybrtk&dl=1', title: 'Intro' },
+            { src: 'https://www.dropbox.com/scl/fi/5yz0kmmhvfapc9ttf4rmj/101.mp3?rlkey=u7rxrn806wp6prk4i843hxpwy&dl=1', title: 'Book 1 Chapter 1' },
+            { src: 'https://www.dropbox.com/scl/fi/pbkisu81thkx3lxog850w/102.mp3?rlkey=pi1ek8zdcypfrt6zf55lay4di&dl=1', title: 'Book 1 Chapter 2' },
+            { src: 'https://www.dropbox.com/scl/fi/su0dka53xb3bdjjqwrtjb/103.mp3?rlkey=lmkqqudgba70sk7ivgq8258e5&dl=1', title: 'Book 1 Chapter 3' },
+            { src: 'https://www.dropbox.com/scl/fi/a936ohticcfp3rwn0xgb7/104.mp3?rlkey=xz3rp3faje8u2ehxu5uqbmjie&dl=1', title: 'Book 1 Chapter 4' },
+            { src: 'https://www.dropbox.com/scl/fi/qy74oxudr4bs5w7llbdu3/105.mp3?rlkey=1jnf9e1s05lpei94xqcd12s5s&dl=1', title: 'Book 1 Chapter 5' },
+            { src: 'https://www.dropbox.com/scl/fi/y0mhwr6th14fygkkoapsa/106.mp3?rlkey=903w5hew3f7z2d2s9t93z33st&dl=1', title: 'Book 1 Chapter 6' },
             // Add more audio files here
         ];
 
@@ -136,5 +148,12 @@
         // Optionally, you can auto-play the next track when the current one ends
         audioElement.addEventListener('ended', playNext);
     </script>
+
+    <footer class="w3-container w3-padding-64 w3-center w3-black w3-xlarge">
+        <a href="https://www.facebook.com/timmy.gijbels"><i class="fa fa-facebook-official"></i></a>
+        <a href="https://www.linkedin.com/in/timothygijbels/"><i class="fa fa-linkedin"></i></a>
+        <p class="w3-medium">
+        </p>
+    </footer>
 </body>
 </html>
