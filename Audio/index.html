@@ -46,6 +46,22 @@
                 font-size: 18px;
             }
         }
+        .track-list {
+            margin-top: 20px;
+            list-style-type: none;
+            padding: 0;
+        }
+        .track-list li {
+            margin: 10px 0;
+        }
+        .track-list a {
+            text-decoration: none;
+            color: #007bff;
+            font-size: 18px;
+        }
+        .track-list a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -58,42 +74,64 @@
         <div class="controls">
             <button onclick="playNext()">Play Next</button>
         </div>
+        <ul class="track-list" id="trackList">
+            <!-- Track list will be populated here -->
+        </ul>
     </div>
 
     <script>
-        // List of audio files in chronological order
+        // List of audio files and their titles
         const audioFiles = [
-            'https://www.dropbox.com/scl/fi/856zqr0gvrlrnwsykrnyg/000.mp3?rlkey=ed012wj4b4o7xwu5gl7mybrtk&dl=1',  // Public MP3 file
-            'https://www.dropbox.com/scl/fi/5yz0kmmhvfapc9ttf4rmj/101.mp3?rlkey=u7rxrn806wp6prk4i843hxpwy&dl=1',
-            'https://www.dropbox.com/scl/fi/pbkisu81thkx3lxog850w/102.mp3?rlkey=pi1ek8zdcypfrt6zf55lay4di&dl=1',
-            'https://www.dropbox.com/scl/fi/su0dka53xb3bdjjqwrtjb/103.mp3?rlkey=lmkqqudgba70sk7ivgq8258e5&dl=1',
-            'https://www.dropbox.com/scl/fi/a936ohticcfp3rwn0xgb7/104.mp3?rlkey=xz3rp3faje8u2ehxu5uqbmjie&dl=1',
-            'https://www.dropbox.com/scl/fi/qy74oxudr4bs5w7llbdu3/105.mp3?rlkey=1jnf9e1s05lpei94xqcd12s5s&dl=1',
-            'https://www.dropbox.com/scl/fi/y0mhwr6th14fygkkoapsa/106.mp3?rlkey=903w5hew3f7z2d2s9t93z33st&dl=1',
+            { src: 'https://www.dropbox.com/scl/fi/856zqr0gvrlrnwsykrnyg/000.mp3?rlkey=ed012wj4b4o7xwu5gl7mybrtk&dl=1', title: 'Track 000' },
+            { src: 'https://www.dropbox.com/scl/fi/5yz0kmmhvfapc9ttf4rmj/101.mp3?rlkey=u7rxrn806wp6prk4i843hxpwy&dl=1', title: 'Track 101' },
+            { src: 'https://www.dropbox.com/scl/fi/pbkisu81thkx3lxog850w/102.mp3?rlkey=pi1ek8zdcypfrt6zf55lay4di&dl=1', title: 'Track 102' },
+            { src: 'https://www.dropbox.com/scl/fi/su0dka53xb3bdjjqwrtjb/103.mp3?rlkey=lmkqqudgba70sk7ivgq8258e5&dl=1', title: 'Track 103' },
+            { src: 'https://www.dropbox.com/scl/fi/a936ohticcfp3rwn0xgb7/104.mp3?rlkey=xz3rp3faje8u2ehxu5uqbmjie&dl=1', title: 'Track 104' },
+            { src: 'https://www.dropbox.com/scl/fi/qy74oxudr4bs5w7llbdu3/105.mp3?rlkey=1jnf9e1s05lpei94xqcd12s5s&dl=1', title: 'Track 105' },
+            { src: 'https://www.dropbox.com/scl/fi/y0mhwr6th14fygkkoapsa/106.mp3?rlkey=903w5hew3f7z2d2s9t93z33st&dl=1', title: 'Track 106' },
             // Add more audio files here
         ];
 
         let currentTrack = 0;
         const audioElement = document.getElementById('podcastPlayer');
         const sourceElement = document.getElementById('audioSource');
+        const trackList = document.getElementById('trackList');
 
-        function startPlayback() {
-            playNext();
-            document.querySelector('.controls').innerHTML = '<button onclick="playNext()">Play Next</button>';
+        // Initialize track list
+        function initializeTrackList() {
+            audioFiles.forEach((file, index) => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <a href="#" onclick="playTrack(${index}); return false;">${file.title}</a> - <span id="views-${index}">0</span> views
+                `;
+                trackList.appendChild(li);
+            });
+        }
+
+        function playTrack(index) {
+            sourceElement.src = audioFiles[index].src;
+            audioElement.load();
+            audioElement.play().catch(error => console.error('Playback error:', error));
+            updateViews(index);
+            currentTrack = index;
+        }
+
+        function updateViews(index) {
+            const viewElement = document.getElementById(`views-${index}`);
+            let views = parseInt(viewElement.textContent) || 0;
+            viewElement.textContent = views + 1;
         }
 
         function playNext() {
-            console.log(`Current track: ${currentTrack}`);
-            if (currentTrack < audioFiles.length) {
-                sourceElement.src = audioFiles[currentTrack];
-                console.log(`Playing: ${audioFiles[currentTrack]}`);
-                audioElement.load();
-                audioElement.play().catch(error => console.error('Playback error:', error));
-                currentTrack++;
+            if (currentTrack < audioFiles.length - 1) {
+                playTrack(currentTrack + 1);
             } else {
                 alert('No more tracks to play.');
             }
         }
+
+        // Initialize track list on page load
+        initializeTrackList();
 
         // Optionally, you can auto-play the next track when the current one ends
         audioElement.addEventListener('ended', playNext);
