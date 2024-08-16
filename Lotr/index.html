@@ -64,6 +64,16 @@
         .track-list a:hover {
             text-decoration: underline;
         }
+
+            /* Other styles... */
+        .track-list li.current {
+            font-weight: bold;
+            color: #ff5722; /* Highlight color */
+        }
+
+        .track-list li {
+            margin: 10px 0;
+        }
     </style>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/3/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
@@ -109,12 +119,12 @@
             { src: 'https://www.dropbox.com/scl/fi/y0mhwr6th14fygkkoapsa/106.mp3?rlkey=903w5hew3f7z2d2s9t93z33st&dl=1', title: 'Book 1 Chapter 6 (by Jasmijn dV)' },
             // Add more audio files here
         ];
-
-        let currentTrack = 0;
+    
+        let currentTrack = -1; // Initialize to -1, meaning no track is currently playing
         const audioElement = document.getElementById('podcastPlayer');
         const sourceElement = document.getElementById('audioSource');
         const trackList = document.getElementById('trackList');
-
+    
         // Initialize track list
         function initializeTrackList() {
             audioFiles.forEach((file, index) => {
@@ -125,13 +135,21 @@
                 trackList.appendChild(li);
             });
         }
-
+    
+        function updateTrackList() {
+            const items = trackList.getElementsByTagName('li');
+            for (let i = 0; i < items.length; i++) {
+                items[i].classList.toggle('current', i === currentTrack);
+            }
+        }
+    
         function playTrack(index) {
             sourceElement.src = audioFiles[index].src;
             audioElement.load();
             audioElement.play().catch(error => console.error('Playback error:', error));
             currentTrack = index;
-
+            updateTrackList();
+    
             // Set Media Session API metadata
             if ('mediaSession' in navigator) {
                 navigator.mediaSession.metadata = new MediaMetadata({
@@ -142,14 +160,14 @@
                         { src: 'lotrcover.png', sizes: '96x96', type: 'image/png' } // Update the cover image URL
                     ]
                 });
-
+    
                 navigator.mediaSession.setActionHandler('play', () => audioElement.play());
                 navigator.mediaSession.setActionHandler('pause', () => audioElement.pause());
                 navigator.mediaSession.setActionHandler('seekbackward', () => skip(-30));
                 navigator.mediaSession.setActionHandler('seekforward', () => skip(30));
             }
         }
-
+    
         function playNext() {
             if (currentTrack < audioFiles.length - 1) {
                 playTrack(currentTrack + 1);
@@ -157,17 +175,17 @@
                 alert('No more tracks to play.');
             }
         }
-
+    
         function skip(seconds) {
             audioElement.currentTime += seconds;
         }
-
+    
         // Initialize track list on page load
         initializeTrackList();
-
+    
         // Optionally, you can auto-play the next track when the current one ends
         audioElement.addEventListener('ended', playNext);
-    </script>
+    </script>    
 
     <footer class="w3-container w3-padding-64 w3-center w3-black w3-xlarge">
         <a href="https://www.facebook.com/timmy.gijbels"><i class="fa fa-facebook-official"></i></a>
