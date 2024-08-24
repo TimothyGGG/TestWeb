@@ -27,6 +27,7 @@
         }
         .controls {
             margin-top: 20px;
+            margin-bottom: 20px; /* Added margin to separate controls from tabs */
         }
         button {
             padding: 10px 20px;
@@ -85,12 +86,14 @@
             padding: 14px 16px;
             transition: 0.3s;
             font-size: 17px;
+            width: 50%; /* Make tabs take half width for side-by-side layout on mobile */
+            box-sizing: border-box;
         }
         .tabs button:hover {
             background-color: #555;
         }
         .tabs button.active {
-            background-color: #007bff;
+            background-color: #444; /* Dark gray color for the active tab */
             color: #fff;
             font-weight: bold;
         }
@@ -101,6 +104,12 @@
         }
         .tab-content.active {
             display: block;
+        }
+        /* Responsive design */
+        @media (max-width: 600px) {
+            .tabs button {
+                width: 50%; /* Ensures tabs stay side-by-side on mobile */
+            }
         }
     </style>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/3/w3.css">
