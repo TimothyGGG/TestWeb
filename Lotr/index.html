@@ -72,11 +72,12 @@
         /* Tab styles */
         .tabs {
             overflow: hidden;
-            background-color: #f1f1f1;
+            background-color: #333;
             border-bottom: 1px solid #ccc;
         }
         .tabs button {
             background-color: inherit;
+            color: #fff;
             float: left;
             border: none;
             outline: none;
@@ -86,10 +87,11 @@
             font-size: 17px;
         }
         .tabs button:hover {
-            background-color: #ddd;
+            background-color: #555;
         }
         .tabs button.active {
-            background-color: #ccc;
+            background-color: #007bff;
+            color: #fff;
             font-weight: bold;
         }
         .tab-content {
@@ -124,14 +126,13 @@
             <button onclick="skip(-30)">-30s</button>
             <button onclick="skip(30)">+30s</button>
             <button onclick="playNext()">Play Next</button>
-            <!-- Playback speed toggle button -->
-            <button id="speedToggle" onclick="toggleSpeed()">Speed: 1x</button>
+            <!-- Removed Speed Toggle Button -->
         </div>
 
         <!-- Tabs -->
         <div class="tabs">
-            <button class="tablinks" onclick="openBook(event, 'book1')" id="defaultTab">Book 1</button>
-            <button class="tablinks" onclick="openBook(event, 'book2')">Book 2</button>
+            <button class="tablinks" onclick="openBook(event, 'book1')">Book 1</button>
+            <button class="tablinks" onclick="openBook(event, 'book2')" id="defaultTab">Book 2</button>
         </div>
 
         <!-- Tab content for Book 1 -->
@@ -178,94 +179,92 @@
             ]
         };
 
-        let currentTrack = -1;
-        let currentBook = 'book1';
-        const audioElement = document.getElementById('podcastPlayer');
-        const sourceElement = document.getElementById('audioSource');
-        let isSpeedNormal = true; // Flag to track current speed state
-
-        function initializeTrackList(book) {
-            const trackList = document.getElementById(`trackList${capitalize(book)}`);
-            trackList.innerHTML = ''; // Clear existing track list
-            books[book].forEach((file, index) => {
-                const li = document.createElement('li');
-                li.innerHTML = `
-                    <a href="#" onclick="playTrack('${book}', ${index}); return false;">${file.title}</a>
-                `;
-                trackList.appendChild(li);
-            });
-        }
-
-        function updateTrackList() {
-            const items = document.querySelectorAll(`#trackList${capitalize(currentBook)} li`);
-            items.forEach((item, index) => {
-                item.classList.toggle('current', index === currentTrack);
-            });
-        }
-
-        function playTrack(book, index) {
-            currentBook = book;
-            currentTrack = index;
-            const track = books[book][index];
-            sourceElement.src = track.src;
-            audioElement.load();
-            audioElement.play().then(() => {
-                console.log('Playback started');
-            }).catch(error => {
-                console.error('Playback error:', error);
-                alert('Playback error: ' + error.message);
-            });
-            updateTrackList();
-            document.getElementById('bookTitle').textContent = track.title.split('(')[0].trim();
-        }
-
-        function playNext() {
-            if (currentTrack < books[currentBook].length - 1) {
-                playTrack(currentBook, currentTrack + 1);
-            } else {
-                alert('No more tracks to play.');
-            }
-        }
-
+        // Function to skip seconds in the audio
         function skip(seconds) {
-            audioElement.currentTime += seconds;
+            const audio = document.getElementById('podcastPlayer');
+            audio.currentTime += seconds;
         }
 
-        function toggleSpeed() {
-            if (isSpeedNormal) {
-                audioElement.playbackRate = 1.5;
-                document.getElementById('speedToggle').textContent = 'Speed: 1.5x';
-            } else {
-                audioElement.playbackRate = 1;
-                document.getElementById('speedToggle').textContent = 'Speed: 1x';
-            }
-            isSpeedNormal = !isSpeedNormal; // Toggle the flag
+        // Function to load track
+        function loadTrack(book, index) {
+            const player = document.getElementById('podcastPlayer');
+            const source = document.getElementById('audioSource');
+            const track = books[book][index];
+            source.src = track.src;
+            player.load();
+            player.play();
+            updateCurrentTrack(book, index);
         }
 
-        function openBook(evt, bookName) {
-            const tabContent = document.getElementsByClassName('tab-content');
-            for (let i = 0; i < tabContent.length; i++) {
-                tabContent[i].style.display = 'none';
-                tabContent[i].classList.remove('active');
-            }
-            const tabLinks = document.getElementsByClassName('tablinks');
-            for (let i = 0; i < tabLinks.length; i++) {
-                tabLinks[i].classList.remove('active');
-            }
-            document.getElementById(bookName).style.display = 'block';
-            evt.currentTarget.className += ' active';
-            currentBook = bookName;
-            currentTrack = -1;
-            initializeTrackList(bookName);
+        // Update the current track being played
+        function updateCurrentTrack(book, index) {
+            const allTrackLists = document.querySelectorAll('.track-list');
+            allTrackLists.forEach(list => list.querySelectorAll('li').forEach(item => item.classList.remove('current')));
+
+            const currentTrack = document.getElementById(`trackList${capitalize(book)}`).children[index];
+            currentTrack.classList.add('current');
+
+            // Show which book tab is currently playing
+            const tabLinks = document.querySelectorAll('.tablinks');
+            tabLinks.forEach(tab => tab.classList.remove('active'));
+            document.querySelector(`button[onclick="openBook(event, '${book}')"]`).classList.add('active');
         }
 
+        // Load track list on page load
+        window.onload = function () {
+            Object.keys(books).forEach(book => {
+                const trackList = document.getElementById(`trackList${capitalize(book)}`);
+                books[book].forEach((track, index) => {
+                    const listItem = document.createElement('li');
+                    const link = document.createElement('a');
+                    link.href = '#';
+                    link.textContent = track.title;
+                    link.onclick = function () {
+                        loadTrack(book, index);
+                        return false;
+                    };
+                    listItem.appendChild(link);
+                    trackList.appendChild(listItem);
+                });
+            });
+
+            // Set default tab
+            document.getElementById('defaultTab').click();
+        };
+
+        // Function to capitalize first letter of book name
         function capitalize(str) {
             return str.charAt(0).toUpperCase() + str.slice(1);
         }
 
-        // Initialize the first tab
-        document.getElementById('defaultTab').click();
-        audioElement.addEventListener('ended', playNext);
+        // Open book tab
+        function openBook(event, bookName) {
+            const tabContent = document.querySelectorAll('.tab-content');
+            tabContent.forEach(content => content.classList.remove('active'));
+
+            const tabLinks = document.querySelectorAll('.tablinks');
+            tabLinks.forEach(tab => tab.classList.remove('active'));
+
+            document.getElementById(bookName).classList.add('active');
+            event.currentTarget.classList.add('active');
+
+            // Keep track of currently playing track visible
+            const currentTrack = document.querySelector('.track-list .current');
+            if (currentTrack) {
+                currentTrack.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        }
+
+        // Play next track
+        function playNext() {
+            const current = document.querySelector('.track-list .current');
+            if (current) {
+                const next = current.nextElementSibling;
+                if (next) {
+                    next.querySelector('a').click();
+                }
+            }
+        }
     </script>
 </body>
 </html>
