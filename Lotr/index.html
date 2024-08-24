@@ -36,6 +36,7 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            margin-right: 10px; /* Added for better spacing */
         }
         button:hover {
             background-color: #0056b3;
@@ -68,6 +69,37 @@
             font-weight: bold;
             color: #ff5722;
         }
+        /* Tab styles */
+        .tabs {
+            overflow: hidden;
+            background-color: #f1f1f1;
+            border-bottom: 1px solid #ccc;
+        }
+        .tabs button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+            font-size: 17px;
+        }
+        .tabs button:hover {
+            background-color: #ddd;
+        }
+        .tabs button.active {
+            background-color: #ccc;
+            font-weight: bold;
+        }
+        .tab-content {
+            display: none;
+            padding: 20px;
+            border-top: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
     </style>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/3/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
@@ -80,11 +112,10 @@
     </nav>
 
     <h2>Here be dragons!</h2>
-
     <p>The best audiobook you will ever listen to...</p>
 
     <div class="container">
-        <h1>The Lord of the Rings</h1>
+        <h1 id="bookTitle">The Lord of the Rings</h1>
         <audio id="podcastPlayer" controls>
             <source id="audioSource" src="" type="audio/mp3">
             Your browser does not support the audio element.
@@ -93,53 +124,90 @@
             <button onclick="skip(-30)">-30s</button>
             <button onclick="skip(30)">+30s</button>
             <button onclick="playNext()">Play Next</button>
+            <!-- Playback speed toggle button -->
+            <button id="speedToggle" onclick="toggleSpeed()">Speed: 1x</button>
         </div>
-        <ul class="track-list" id="trackList">
-            <!-- Track list will be populated here -->
-        </ul>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tablinks" onclick="openBook(event, 'book1')" id="defaultTab">Book 1</button>
+            <button class="tablinks" onclick="openBook(event, 'book2')">Book 2</button>
+        </div>
+
+        <!-- Tab content for Book 1 -->
+        <div id="book1" class="tab-content">
+            <ul class="track-list" id="trackListBook1">
+                <!-- Track list for Book 1 will be populated here -->
+            </ul>
+        </div>
+
+        <!-- Tab content for Book 2 -->
+        <div id="book2" class="tab-content">
+            <ul class="track-list" id="trackListBook2">
+                <!-- Track list for Book 2 will be populated here -->
+            </ul>
+        </div>
     </div>
 
+    <footer class="w3-container w3-padding-64 w3-center w3-black w3-xlarge">
+        <a href="https://www.facebook.com/timmy.gijbels"><i class="fa fa-facebook-official"></i></a>
+        <a href="https://www.linkedin.com/in/timothygijbels/"><i class="fa fa-linkedin"></i></a>
+        <p class="w3-medium"></p>
+    </footer>
+
     <script>
-        const audioFiles = [
-            { src: 'https://www.dropbox.com/scl/fi/856zqr0gvrlrnwsykrnyg/000.mp3?rlkey=ed012wj4b4o7xwu5gl7mybrtk&dl=1', title: 'Intro (by Timothy)' },
-            { src: 'https://www.dropbox.com/scl/fi/5yz0kmmhvfapc9ttf4rmj/101.mp3?rlkey=u7rxrn806wp6prk4i843hxpwy&dl=1', title: 'Book 1 Chapter 1 (by Timothy)' },
-            { src: 'https://www.dropbox.com/scl/fi/pbkisu81thkx3lxog850w/102.mp3?rlkey=pi1ek8zdcypfrt6zf55lay4di&dl=1', title: 'Book 1 Chapter 2 (by Robin Kwak)' },
-            { src: 'https://www.dropbox.com/scl/fi/su0dka53xb3bdjjqwrtjb/103.mp3?rlkey=lmkqqudgba70sk7ivgq8258e5&dl=1', title: 'Book 1 Chapter 3 (by Eva S)' },
-            { src: 'https://www.dropbox.com/scl/fi/a936ohticcfp3rwn0xgb7/104.mp3?rlkey=xz3rp3faje8u2ehxu5uqbmjie&dl=1', title: 'Book 1 Chapter 4 (by Elena P)' },
-            { src: 'https://www.dropbox.com/scl/fi/qy74oxudr4bs5w7llbdu3/105.mp3?rlkey=1jnf9e1s05lpei94xqcd12s5s&dl=1', title: 'Book 1 Chapter 5 (by Bram vK)' },
-            { src: 'https://www.dropbox.com/scl/fi/y0mhwr6th14fygkkoapsa/106.mp3?rlkey=903w5hew3f7z2d2s9t93z33st&dl=1', title: 'Book 1 Chapter 6 (by Jasmijn dV)' },
-            { src: 'https://www.dropbox.com/scl/fi/2x1dzrehpe8viw053fxrj/107.mp3?rlkey=k77t5yxxb8elqo4yp30kt31h2&dl=1', title: 'Book 1 Chapter 7 (by Elena P)' },
-            { src: 'https://www.dropbox.com/scl/fi/flyt9o2crybku6p99ct36/108.mp3?rlkey=1c6ifz65horm4kb4c4r1d0nzo&dl=1', title: 'Book 1 Chapter 8 (by Timothy)' },
-            { src: 'https://www.dropbox.com/scl/fi/0dfr04tjbirg9aw16843x/109.mp3?rlkey=ibgite3qj7ncjwok8y8kxws8a&dl=1', title: 'Book 1 Chapter 9 (by Robin Kwak)' },
-            { src: 'https://www.dropbox.com/scl/fi/vj0b4one3nevzyo88dhuf/110.mp3?rlkey=hjnf73pau9xa66yxajyai8j5h&dl=1', title: 'Book 1 Chapter 10 (by Lucas vB)' },
-            { src: 'https://www.dropbox.com/scl/fi/1py1j35awco3692pmv1fy/111.mp3?rlkey=rcwh1ycn9ss18mfbjdxg83ou5&dl=1', title: 'Book 1 Chapter 11 (by Elena P)' },
-            { src: 'https://www.dropbox.com/scl/fi/b79kv4jm9cnp8gjb8ogkv/112.mp3?rlkey=ci0o4qyrql6b803ubkf59200l&dl=1', title: 'Book 1 Chapter 12 (Bram vK)' }
-        ];
+        const books = {
+            book1: [
+                { src: 'https://www.dropbox.com/scl/fi/856zqr0gvrlrnwsykrnyg/000.mp3?rlkey=ed012wj4b4o7xwu5gl7mybrtk&dl=1', title: 'Intro (by Timothy)' },
+                { src: 'https://www.dropbox.com/scl/fi/5yz0kmmhvfapc9ttf4rmj/101.mp3?rlkey=u7rxrn806wp6prk4i843hxpwy&dl=1', title: 'Book 1 Chapter 1 (by Timothy)' },
+                { src: 'https://www.dropbox.com/scl/fi/pbkisu81thkx3lxog850w/102.mp3?rlkey=pi1ek8zdcypfrt6zf55lay4di&dl=1', title: 'Book 1 Chapter 2 (by Robin Kwak)' },
+                { src: 'https://www.dropbox.com/scl/fi/su0dka53xb3bdjjqwrtjb/103.mp3?rlkey=lmkqqudgba70sk7ivgq8258e5&dl=1', title: 'Book 1 Chapter 3 (by Eva S)' },
+                { src: 'https://www.dropbox.com/scl/fi/a936ohticcfp3rwn0xgb7/104.mp3?rlkey=xz3rp3faje8u2ehxu5uqbmjie&dl=1', title: 'Book 1 Chapter 4 (by Elena P)' },
+                { src: 'https://www.dropbox.com/scl/fi/qy74oxudr4bs5w7llbdu3/105.mp3?rlkey=1jnf9e1s05lpei94xqcd12s5s&dl=1', title: 'Book 1 Chapter 5 (by Bram vK)' },
+                { src: 'https://www.dropbox.com/scl/fi/y0mhwr6th14fygkkoapsa/106.mp3?rlkey=903w5hew3f7z2d2s9t93z33st&dl=1', title: 'Book 1 Chapter 6 (by Jasmijn dV)' },
+                { src: 'https://www.dropbox.com/scl/fi/2x1dzrehpe8viw053fxrj/107.mp3?rlkey=k77t5yxxb8elqo4yp30kt31h2&dl=1', title: 'Book 1 Chapter 7 (by Elena P)' },
+                { src: 'https://www.dropbox.com/scl/fi/flyt9o2crybku6p99ct36/108.mp3?rlkey=1c6ifz65horm4kb4c4r1d0nzo&dl=1', title: 'Book 1 Chapter 8 (by Timothy)' },
+                { src: 'https://www.dropbox.com/scl/fi/0dfr04tjbirg9aw16843x/109.mp3?rlkey=ibgite3qj7ncjwok8y8kxws8a&dl=1', title: 'Book 1 Chapter 9 (by Robin Kwak)' },
+                { src: 'https://www.dropbox.com/scl/fi/vj0b4one3nevzyo88dhuf/110.mp3?rlkey=hjnf73pau9xa66yxajyai8j5h&dl=1', title: 'Book 1 Chapter 10 (by Lucas vB)' },
+                { src: 'https://www.dropbox.com/scl/fi/1py1j35awco3692pmv1fy/111.mp3?rlkey=rcwh1ycn9ss18mfbjdxg83ou5&dl=1', title: 'Book 1 Chapter 11 (by Elena P)' },
+                { src: 'https://www.dropbox.com/scl/fi/b79kv4jm9cnp8gjb8ogkv/112.mp3?rlkey=ci0o4qyrql6b803ubkf59200l&dl=1', title: 'Book 1 Chapter 12 (Bram vK)' }
+            ],
+            book2: [
+                { src: 'https://www.dropbox.com/scl/fi/w0k3azmtapi56j2z2f0vj/201.mp3?rlkey=n04gsfopk6vqd9uojldj1r2cb&dl=1', title: 'Book 2 Chapter 1 (by Jasmijn dV)' },
+                { src: 'https://www.dropbox.com/scl/fi/bnd7nycybikesffplyug9/202.mp3?rlkey=0k6d2olil8cwng1seg9sl5py8&dl=1', title: 'Book 2 Chapter 2 (by Eva S)' }
+            ]
+        };
 
         let currentTrack = -1;
+        let currentBook = 'book1';
         const audioElement = document.getElementById('podcastPlayer');
         const sourceElement = document.getElementById('audioSource');
-        const trackList = document.getElementById('trackList');
+        let isSpeedNormal = true; // Flag to track current speed state
 
-        function initializeTrackList() {
-            audioFiles.forEach((file, index) => {
+        function initializeTrackList(book) {
+            const trackList = document.getElementById(`trackList${capitalize(book)}`);
+            trackList.innerHTML = ''; // Clear existing track list
+            books[book].forEach((file, index) => {
                 const li = document.createElement('li');
                 li.innerHTML = `
-                    <a href="#" onclick="playTrack(${index}); return false;">${file.title}</a>
+                    <a href="#" onclick="playTrack('${book}', ${index}); return false;">${file.title}</a>
                 `;
                 trackList.appendChild(li);
             });
         }
 
         function updateTrackList() {
-            const items = trackList.getElementsByTagName('li');
-            for (let i = 0; i < items.length; i++) {
-                items[i].classList.toggle('current', i === currentTrack);
-            }
+            const items = document.querySelectorAll(`#trackList${capitalize(currentBook)} li`);
+            items.forEach((item, index) => {
+                item.classList.toggle('current', index === currentTrack);
+            });
         }
 
-        function playTrack(index) {
-            sourceElement.src = audioFiles[index].src;
+        function playTrack(book, index) {
+            currentBook = book;
+            currentTrack = index;
+            const track = books[book][index];
+            sourceElement.src = track.src;
             audioElement.load();
             audioElement.play().then(() => {
                 console.log('Playback started');
@@ -147,29 +215,13 @@
                 console.error('Playback error:', error);
                 alert('Playback error: ' + error.message);
             });
-            currentTrack = index;
             updateTrackList();
-
-            if ('mediaSession' in navigator) {
-                navigator.mediaSession.metadata = new MediaMetadata({
-                    title: audioFiles[index].title,
-                    artist: 'Some people',
-                    album: 'Lord of the Rings',
-                    artwork: [
-                        { src: 'lotrcover.png', sizes: '96x96', type: 'image/png' }
-                    ]
-                });
-
-                navigator.mediaSession.setActionHandler('play', () => audioElement.play());
-                navigator.mediaSession.setActionHandler('pause', () => audioElement.pause());
-                navigator.mediaSession.setActionHandler('seekbackward', () => skip(-30));
-                navigator.mediaSession.setActionHandler('seekforward', () => skip(30));
-            }
+            document.getElementById('bookTitle').textContent = track.title.split('(')[0].trim();
         }
 
         function playNext() {
-            if (currentTrack < audioFiles.length - 1) {
-                playTrack(currentTrack + 1);
+            if (currentTrack < books[currentBook].length - 1) {
+                playTrack(currentBook, currentTrack + 1);
             } else {
                 alert('No more tracks to play.');
             }
@@ -179,13 +231,41 @@
             audioElement.currentTime += seconds;
         }
 
-        initializeTrackList();
+        function toggleSpeed() {
+            if (isSpeedNormal) {
+                audioElement.playbackRate = 1.5;
+                document.getElementById('speedToggle').textContent = 'Speed: 1.5x';
+            } else {
+                audioElement.playbackRate = 1;
+                document.getElementById('speedToggle').textContent = 'Speed: 1x';
+            }
+            isSpeedNormal = !isSpeedNormal; // Toggle the flag
+        }
 
+        function openBook(evt, bookName) {
+            const tabContent = document.getElementsByClassName('tab-content');
+            for (let i = 0; i < tabContent.length; i++) {
+                tabContent[i].style.display = 'none';
+                tabContent[i].classList.remove('active');
+            }
+            const tabLinks = document.getElementsByClassName('tablinks');
+            for (let i = 0; i < tabLinks.length; i++) {
+                tabLinks[i].classList.remove('active');
+            }
+            document.getElementById(bookName).style.display = 'block';
+            evt.currentTarget.className += ' active';
+            currentBook = bookName;
+            currentTrack = -1;
+            initializeTrackList(bookName);
+        }
+
+        function capitalize(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }
+
+        // Initialize the first tab
+        document.getElementById('defaultTab').click();
         audioElement.addEventListener('ended', playNext);
-    </script>    
-
-    <footer class="w3-container w3-padding-64 w3-center w3-black w3-xlarge">
-        <a href="https://www.facebook.com/timmy.gijbels"><i class="fa fa-facebook-official"></i></a>
-        <a href="https://www.linkedin.com/in/timothygijbels/"><i class="fa fa-linkedin"></i></a>
-        <p class="w3-medium"></p>
-    </footer>
+    </script>
+</body>
+</html>
