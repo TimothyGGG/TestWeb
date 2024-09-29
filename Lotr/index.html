@@ -245,22 +245,6 @@
             updateCurrentTrack(book, index);
         }
 
-        // Show buffering state
-        const podcastPlayer = document.getElementById('podcastPlayer');
-        const loadingIndicator = document.getElementById('loadingIndicator');
-
-        podcastPlayer.addEventListener('waiting', () => {
-            loadingIndicator.classList.add('active');
-        });
-
-        podcastPlayer.addEventListener('canplay', () => {
-            loadingIndicator.classList.remove('active');
-        });
-
-        podcastPlayer.addEventListener('playing', () => {
-            loadingIndicator.classList.remove('active');
-        });
-
         // Update the current track being played
         function updateCurrentTrack(book, index) {
             // Updating track as before
@@ -276,6 +260,27 @@
         function capitalize(str) {
             return str.charAt(0).toUpperCase() + str.slice(1);
         }
+
+        // Show buffering state
+        window.onload = function() {
+        const podcastPlayer = document.getElementById('podcastPlayer');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+
+        // Attach event listeners for buffering state
+        podcastPlayer.addEventListener('waiting', () => {
+            loadingIndicator.classList.add('active');
+        });
+
+        podcastPlayer.addEventListener('canplay', () => {
+            loadingIndicator.classList.remove('active');
+        });
+
+        podcastPlayer.addEventListener('playing', () => {
+            loadingIndicator.classList.remove('active');
+        });
+
+    // Other initialization logic
+};
 
         // Open book tab
         function openBook(event, bookName) {
