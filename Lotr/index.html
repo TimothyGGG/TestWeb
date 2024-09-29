@@ -274,8 +274,25 @@
             document.querySelector(`button[onclick="openBook(event, '${book}')"]`).classList.add('active');
         }
 
-        // Load track list on page load
-        window.onload = function () {
+            //goes through a series of functions upon loading.
+            window.onload = function () {
+            const player = document.getElementById('podcastPlayer');
+            const bufferingMessage = document.getElementById('bufferingMessage');
+
+            // Hide buffering message initially
+            bufferingMessage.style.display = 'none';
+
+            // Show buffering message when audio is waiting (buffering)
+            player.addEventListener('waiting', function() {
+            bufferingMessage.style.display = 'block';
+            });
+
+            // Hide buffering message when audio can play (finished buffering)
+            player.addEventListener('canplay', function() {
+                bufferingMessage.style.display = 'none';
+            });
+
+            // Load the track list for each book
             Object.keys(books).forEach(book => {
                 const trackList = document.getElementById(`trackList${capitalize(book)}`);
                 books[book].forEach((track, index) => {
