@@ -105,6 +105,13 @@
         .tab-content.active {
             display: block;
         }
+        /* Buffering message */
+        .buffering-message {
+            display: none;
+            color: #ff5722;
+            font-size: 16px;
+            margin-top: 10px;
+        }
         /* Responsive design */
         @media (max-width: 600px) {
             .tabs button {
@@ -133,11 +140,12 @@
             Your browser does not support the audio element.
         </audio>
 
+        <div class="buffering-message" id="bufferingMessage">Buffering...</div>
+
         <div class="controls">
             <button onclick="skip(-30)">-30s</button>
             <button onclick="skip(30)">+30s</button>
             <button onclick="playNext()">Play Next</button>
-            <!-- Removed Speed Toggle Button -->
         </div>
 
         <!-- Tabs -->
@@ -284,22 +292,17 @@
                 });
             });
 
-            // Set default tab
+            // Open the default tab on page load
             document.getElementById('defaultTab').click();
         };
 
-        // Function to capitalize first letter of book name
-        function capitalize(str) {
-            return str.charAt(0).toUpperCase() + str.slice(1);
-        }
-
-        // Open book tab
+        // Function to handle tab switching
         function openBook(event, bookName) {
-            const tabContent = document.querySelectorAll('.tab-content');
-            tabContent.forEach(content => content.classList.remove('active'));
+            const tabcontent = document.querySelectorAll('.tab-content');
+            tabcontent.forEach(content => content.classList.remove('active'));
 
-            const tabLinks = document.querySelectorAll('.tablinks');
-            tabLinks.forEach(tab => tab.classList.remove('active'));
+            const tablinks = document.querySelectorAll('.tablinks');
+            tablinks.forEach(link => link.classList.remove('active'));
 
             document.getElementById(bookName).classList.add('active');
             event.currentTarget.classList.add('active');
@@ -310,6 +313,23 @@
                 currentTrack.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             }
         }
+
+        // Capitalize first letter of book name
+        function capitalize(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }
+
+        // Add buffering message
+        const audioPlayer = document.getElementById('podcastPlayer');
+        const bufferingMessage = document.getElementById('bufferingMessage');
+
+        audioPlayer.addEventListener('loadstart', () => {
+            bufferingMessage.style.display = 'block';
+        });
+
+        audioPlayer.addEventListener('canplay', () => {
+            bufferingMessage.style.display = 'none';
+        });
 
         // Play next track
         function playNext() {
