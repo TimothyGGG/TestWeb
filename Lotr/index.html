@@ -27,7 +27,7 @@
         }
         .controls {
             margin-top: 20px;
-            margin-bottom: 20px;
+            margin-bottom: 20px; /* Added margin to separate controls from tabs */
         }
         button {
             padding: 10px 20px;
@@ -37,7 +37,7 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            margin-right: 10px;
+            margin-right: 10px; /* Added for better spacing */
         }
         button:hover {
             background-color: #0056b3;
@@ -86,14 +86,14 @@
             padding: 14px 16px;
             transition: 0.3s;
             font-size: 17px;
-            width: 50%;
+            width: 50%; /* Make tabs take half width for side-by-side layout on mobile */
             box-sizing: border-box;
         }
         .tabs button:hover {
             background-color: #888888;
         }
         .tabs button.active {
-            background-color: #676666;
+            background-color: #676666; /* Dark gray color for the active tab */
             color: #fff;
             font-weight: bold;
         }
@@ -105,15 +105,11 @@
         .tab-content.active {
             display: block;
         }
-        /* Loading Indicator Styles */
-        .loading {
-            display: none;
-            font-size: 16px;
-            color: #ff5722;
-            margin-top: 10px;
-        }
-        .loading.active {
-            display: block;
+        /* Responsive design */
+        @media (max-width: 600px) {
+            .tabs button {
+                width: 50%; /* Ensures tabs stay side-by-side on mobile */
+            }
         }
     </style>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/3/w3.css">
@@ -131,20 +127,15 @@
 
     <div class="container">
         <h1 id="bookTitle">The Lord of the Rings</h1>
-
-        <!-- Audio player -->
         <audio id="podcastPlayer" controls>
             <source id="audioSource" src="" type="audio/mp3">
             Your browser does not support the audio element.
         </audio>
-
-        <!-- Buffering Indicator -->
-        <div id="loadingIndicator" class="loading">Buffering... Please wait</div>
-
         <div class="controls">
             <button onclick="skip(-30)">-30s</button>
             <button onclick="skip(30)">+30s</button>
             <button onclick="playNext()">Play Next</button>
+            <!-- Removed Speed Toggle Button -->
         </div>
 
         <!-- Tabs -->
@@ -157,26 +148,40 @@
             <button class="tablinks" onclick="openBook(event, 'book4')">Book 4</button>
         </div>
 
+        <!-- Tab content for Book 1 -->
         <div id="book1" class="tab-content">
-            <ul class="track-list" id="trackListBook1"></ul>
+            <ul class="track-list" id="trackListBook1">
+                <!-- Track list for Book 1 will be populated here -->
+            </ul>
         </div>
 
+        <!-- Tab content for Book 2 -->
         <div id="book2" class="tab-content">
-            <ul class="track-list" id="trackListBook2"></ul>
+            <ul class="track-list" id="trackListBook2">
+                <!-- Track list for Book 2 will be populated here -->
+            </ul>
         </div>
 
+        <!-- Tab content for Book 3 -->
         <div id="book3" class="tab-content">
-            <ul class="track-list" id="trackListBook3"></ul>
+            <ul class="track-list" id="trackListBook3">
+                <!-- Track list for Book 3 will be populated here -->
+            </ul>
         </div>
 
+        <!-- Tab content for Book 4 -->
         <div id="book4" class="tab-content">
-            <ul class="track-list" id="trackListBook4"></ul>
+            <ul class="track-list" id="trackListBook4">
+                <!-- Track list for Book 4 will be populated here -->
+            </ul>
         </div>
+
     </div>
 
     <footer class="w3-container w3-padding-64 w3-center w3-black w3-xlarge">
         <a href="https://www.facebook.com/timmy.gijbels"><i class="fa fa-facebook-official"></i></a>
         <a href="https://www.linkedin.com/in/timothygijbels/"><i class="fa fa-linkedin"></i></a>
+        <p class="w3-medium"></p>
     </footer>
 
     <script>
@@ -223,7 +228,7 @@
                 { src: 'https://www.dropbox.com/scl/fi/pucst28faahxuelk3pa6k/311.mp3?rlkey=9jy9aabob2xraww4hb0zt7oxr&st=r25urgjl&dl=1', title: 'Book 3 Chapter 11 (by Pepijn K)' }
             ],
             book4: [
-                { src: 'https://www.dropbox.com/scl/fi/l9mxvso6h0bcxi112lbbj/301.mp3?rlkey=u4xzxbedx265x8sbavzgmacnh&dl=1', title: 'Book 4 Chapter 1 (by Miro F)' },
+                //{ src: 'https://www.dropbox.com/scl/fi/l9mxvso6h0bcxi112lbbj/301.mp3?rlkey=u4xzxbedx265x8sbavzgmacnh&dl=1', title: 'Book 4 Chapter 1 (by Miro F)' },
                 { src: 'https://www.dropbox.com/scl/fi/85e11exobdxxjaf3gekg0/402.mp3?rlkey=i7hjiff3z2qn9nbpelku2g3ef&st=bfmpn432&dl=2', title: 'Book 4 Chapter 2 (by Lucas vB)' }
             ]
         };
@@ -247,12 +252,37 @@
 
         // Update the current track being played
         function updateCurrentTrack(book, index) {
-            // Updating track as before
+            const allTrackLists = document.querySelectorAll('.track-list');
+            allTrackLists.forEach(list => list.querySelectorAll('li').forEach(item => item.classList.remove('current')));
+
+            const currentTrack = document.getElementById(`trackList${capitalize(book)}`).children[index];
+            currentTrack.classList.add('current');
+
+            // Show which book tab is currently playing
+            const tabLinks = document.querySelectorAll('.tablinks');
+            tabLinks.forEach(tab => tab.classList.remove('active'));
+            document.querySelector(`button[onclick="openBook(event, '${book}')"]`).classList.add('active');
         }
 
         // Load track list on page load
         window.onload = function () {
-            // Load track list as before
+            Object.keys(books).forEach(book => {
+                const trackList = document.getElementById(`trackList${capitalize(book)}`);
+                books[book].forEach((track, index) => {
+                    const listItem = document.createElement('li');
+                    const link = document.createElement('a');
+                    link.href = '#';
+                    link.textContent = track.title;
+                    link.onclick = function () {
+                        loadTrack(book, index);
+                        return false;
+                    };
+                    listItem.appendChild(link);
+                    trackList.appendChild(listItem);
+                });
+            });
+
+            // Set default tab
             document.getElementById('defaultTab').click();
         };
 
@@ -263,7 +293,31 @@
 
         // Open book tab
         function openBook(event, bookName) {
-            // Tab handling as before
+            const tabContent = document.querySelectorAll('.tab-content');
+            tabContent.forEach(content => content.classList.remove('active'));
+
+            const tabLinks = document.querySelectorAll('.tablinks');
+            tabLinks.forEach(tab => tab.classList.remove('active'));
+
+            document.getElementById(bookName).classList.add('active');
+            event.currentTarget.classList.add('active');
+
+            // Keep track of currently playing track visible
+            const currentTrack = document.querySelector('.track-list .current');
+            if (currentTrack) {
+                currentTrack.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        }
+
+        // Play next track
+        function playNext() {
+            const current = document.querySelector('.track-list .current');
+            if (current) {
+                const next = current.nextElementSibling;
+                if (next) {
+                    next.querySelector('a').click();
+                }
+            }
         }
     </script>
 </body>
