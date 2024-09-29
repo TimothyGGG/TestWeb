@@ -153,8 +153,8 @@
             <button class="tablinks" onclick="openBook(event, 'book2')">Book 2</button>
         </div>
         <div class="tabs">
-            <button class="tablinks" onclick="openBook(event, 'book3')">Book 3</button>
-            <button class="tablinks" onclick="openBook(event, 'book4')" id="defaultTab">Book 4</button>
+            <button class="tablinks" onclick="openBook(event, 'book3')" id="defaultTab">Book 3</button>
+            <button class="tablinks" onclick="openBook(event, 'book4')">Book 4</button>
         </div>
 
         <div id="book1" class="tab-content">
@@ -181,7 +181,51 @@
 
     <script>
         const books = {
-            // Book data (as before)
+            book1: [
+                { src: 'https://www.dropbox.com/scl/fi/856zqr0gvrlrnwsykrnyg/000.mp3?rlkey=ed012wj4b4o7xwu5gl7mybrtk&dl=1', title: 'Intro (by Timothy)' },
+                { src: 'https://www.dropbox.com/scl/fi/5yz0kmmhvfapc9ttf4rmj/101.mp3?rlkey=u7rxrn806wp6prk4i843hxpwy&dl=1', title: 'Book 1 Chapter 1 (by Timothy)' },
+                { src: 'https://www.dropbox.com/scl/fi/pbkisu81thkx3lxog850w/102.mp3?rlkey=pi1ek8zdcypfrt6zf55lay4di&dl=1', title: 'Book 1 Chapter 2 (by Robin Kwak)' },
+                { src: 'https://www.dropbox.com/scl/fi/su0dka53xb3bdjjqwrtjb/103.mp3?rlkey=lmkqqudgba70sk7ivgq8258e5&dl=1', title: 'Book 1 Chapter 3 (by Eva S)' },
+                { src: 'https://www.dropbox.com/scl/fi/a936ohticcfp3rwn0xgb7/104.mp3?rlkey=xz3rp3faje8u2ehxu5uqbmjie&dl=1', title: 'Book 1 Chapter 4 (by Elena P)' },
+                { src: 'https://www.dropbox.com/scl/fi/qy74oxudr4bs5w7llbdu3/105.mp3?rlkey=1jnf9e1s05lpei94xqcd12s5s&dl=1', title: 'Book 1 Chapter 5 (by Bram vK)' },
+                { src: 'https://www.dropbox.com/scl/fi/y0mhwr6th14fygkkoapsa/106.mp3?rlkey=903w5hew3f7z2d2s9t93z33st&dl=1', title: 'Book 1 Chapter 6 (by Jasmijn dV)' },
+                { src: 'https://www.dropbox.com/scl/fi/2x1dzrehpe8viw053fxrj/107.mp3?rlkey=k77t5yxxb8elqo4yp30kt31h2&dl=1', title: 'Book 1 Chapter 7 (by Elena P)' },
+                { src: 'https://www.dropbox.com/scl/fi/flyt9o2crybku6p99ct36/108.mp3?rlkey=1c6ifz65horm4kb4c4r1d0nzo&dl=1', title: 'Book 1 Chapter 8 (by Timothy)' },
+                { src: 'https://www.dropbox.com/scl/fi/0dfr04tjbirg9aw16843x/109.mp3?rlkey=ibgite3qj7ncjwok8y8kxws8a&dl=1', title: 'Book 1 Chapter 9 (by Robin Kwak)' },
+                { src: 'https://www.dropbox.com/scl/fi/vj0b4one3nevzyo88dhuf/110.mp3?rlkey=hjnf73pau9xa66yxajyai8j5h&dl=1', title: 'Book 1 Chapter 10 (by Lucas vB)' },
+                { src: 'https://www.dropbox.com/scl/fi/1py1j35awco3692pmv1fy/111.mp3?rlkey=rcwh1ycn9ss18mfbjdxg83ou5&dl=1', title: 'Book 1 Chapter 11 (by Elena P)' },
+                { src: 'https://www.dropbox.com/scl/fi/b79kv4jm9cnp8gjb8ogkv/112.mp3?rlkey=ci0o4qyrql6b803ubkf59200l&dl=1', title: 'Book 1 Chapter 12 (Bram vK)' }
+            ],
+            book2: [
+                { src: 'https://www.dropbox.com/scl/fi/w0k3azmtapi56j2z2f0vj/201.mp3?rlkey=n04gsfopk6vqd9uojldj1r2cb&dl=1', title: 'Book 2 Chapter 1 (by Jasmijn dV)' },
+                { src: 'https://www.dropbox.com/scl/fi/bnd7nycybikesffplyug9/202.mp3?rlkey=0k6d2olil8cwng1seg9sl5py8&dl=1', title: 'Book 2 Chapter 2 (by Eva S)' },
+                { src: 'https://www.dropbox.com/scl/fi/sfbyovp51mqhipvo4yd9t/203.mp3?rlkey=mmzy8l5hfb4nq1gwdump7pa29&dl=1', title: 'Book 2 Chapter 3 (by Lucas vB)' },
+                { src: 'https://www.dropbox.com/scl/fi/04vexoj3nplk7x0pyfstd/204.mp3?rlkey=1m1282sj5j4gpid6clubrcldd&dl=1', title: 'Book 2 Chapter 4 (by Arend)' },
+                { src: 'https://www.dropbox.com/scl/fi/crwk06zuy1xr9lpiy4yuy/205.mp3?rlkey=mtc16m9pd6eia0l8dq92jb74c&dl=1', title: 'Book 2 Chapter 5 (by Timothy)' },
+                { src: 'https://www.dropbox.com/scl/fi/ylwilh8vo1gxmrajun31d/206.mp3?rlkey=inhahuqj9rndxd66ia6b67tvx&dl=1', title: 'Book 2 Chapter 6 (by Robin Kwak)' },
+                { src: 'https://www.dropbox.com/scl/fi/xw7qgngxkfwl9ptbp7ipo/207.mp3?rlkey=xy1s43w3ng4lmbhiea3jxmkoa&dl=1', title: 'Book 2 Chapter 7 (by Eva S)' },
+                { src: 'https://www.dropbox.com/scl/fi/p1u5g2flweca2swz3g2wh/208.mp3?rlkey=fzl82qd21u4upmi8m9ga9z9z3&dl=1', title: 'Book 2 Chapter 8 (by Bram vK)' },
+                { src: 'https://www.dropbox.com/scl/fi/5z0xl19b1to8oc22z7j8p/209.mp3?rlkey=mlpyyzntwwp9e6aa371crbhqe&dl=1', title: 'Book 2 Chapter 9 (by Elena P)' },
+                { src: 'https://www.dropbox.com/scl/fi/lyix0bro09kfkx6t9vz8k/210.mp3?rlkey=zacz10hxjrxvfk8f0jcmixyw4&dl=1', title: 'Book 2 Chapter 10 (by Jasmijn dV)' },
+                { src: 'https://www.dropbox.com/scl/fi/j9dkguwnkysmp8vlpbhwl/211.mp3?rlkey=nznsfn92eu7dqz0iapud3jg0y&dl=1', title: 'Book 2 Outro (by Jasmijn dV)' }
+            ],
+            book3: [
+                { src: 'https://www.dropbox.com/scl/fi/l9mxvso6h0bcxi112lbbj/301.mp3?rlkey=u4xzxbedx265x8sbavzgmacnh&dl=1', title: 'Book 3 Chapter 1 (by Alicja O)' },
+                { src: 'https://www.dropbox.com/scl/fi/yf4jq1ngjfcmdqmjiezzc/302.mp3?rlkey=kfby1ma76a20xgovanh4ymhwc&st=4ql3hw4o&dl=1', title: 'Book 3 Chapter 2 (by Timothy)' },
+                { src: 'https://www.dropbox.com/scl/fi/oazul2fnrmu0nhsb2l7nm/303.mp3?rlkey=t4ln16jxei6cepa38db3o5eqj&st=98k9co2f&dl=1', title: 'Book 3 Chapter 3 (by Jasmijn dV)' },
+                { src: 'https://www.dropbox.com/scl/fi/tahifctnpl3kyw0dv9qfo/304.mp3?rlkey=mx4628vxfwufn1tqfkqh0jpt8&st=qvr77y5c&dl=1', title: 'Book 3 Chapter 4 (by Timothy)' },
+                { src: 'https://www.dropbox.com/scl/fi/gwlw1iq7juizaqo0cxx3h/305.mp3?rlkey=r7l3913vaz1f7x72o2daoc1gt&st=6foafxe4&dl=1', title: 'Book 3 Chapter 5 (by Bram vK)' },
+                { src: 'https://www.dropbox.com/scl/fi/6nqj55n7518k09tw43mqf/306.mp3?rlkey=fi9i51rskx0j07x1u4wz393w1&st=hafqqs04&dl=1', title: 'Book 3 Chapter 6 (by Robin Kwak)' },
+                { src: 'https://www.dropbox.com/scl/fi/57kecohrcl4gf8spwvq8o/307.mp3?rlkey=6goel71yz6pw383ry57rmhvdz&st=kpt298jk&dl=1', title: 'Book 3 Chapter 7 (by Eva S)' },
+                { src: 'https://www.dropbox.com/scl/fi/1fn558rsf4jt8a3vo7bkn/308.mp3?rlkey=ru7gs2tame2kjn7abvp01dlqm&st=murzru4d&dl=1', title: 'Book 3 Chapter 8 (by Jasmijn dV)' },
+                { src: 'https://www.dropbox.com/scl/fi/ritaes7r5tiqwaqa47kgp/309.mp3?rlkey=36y6n8i6khosw053wn5bpcp05&st=ukrfg3yo&dl=1', title: 'Book 3 Chapter 9 (by Elena P)' },
+                { src: 'https://www.dropbox.com/scl/fi/zjearo2ewd45gt7ntzjwu/310.mp3?rlkey=bwpc6hy2aqy0954un7f18avck&st=t0g904vg&dl=1', title: 'Book 3 Chapter 10 (by Timothy)' },
+                { src: 'https://www.dropbox.com/scl/fi/pucst28faahxuelk3pa6k/311.mp3?rlkey=9jy9aabob2xraww4hb0zt7oxr&st=r25urgjl&dl=1', title: 'Book 3 Chapter 11 (by Pepijn K)' }
+            ],
+            book4: [
+                //{ src: 'https://www.dropbox.com/scl/fi/l9mxvso6h0bcxi112lbbj/301.mp3?rlkey=u4xzxbedx265x8sbavzgmacnh&dl=1', title: 'Book 4 Chapter 1 (by Miro F)' },
+                { src: 'https://www.dropbox.com/scl/fi/85e11exobdxxjaf3gekg0/402.mp3?rlkey=i7hjiff3z2qn9nbpelku2g3ef&st=bfmpn432&dl=2', title: 'Book 4 Chapter 2 (by Lucas vB)' }
+            ]
         };
 
         // Function to skip seconds in the audio
