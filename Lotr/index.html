@@ -112,16 +112,6 @@
             }
         }
 
-        /* Loading Indicator Styles */
-        .loading {
-            display: none;
-            font-size: 16px;
-            color: #ff5722;
-            margin-top: 10px;
-        }
-        .loading.active {
-            display: block;
-        }
     </style>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/3/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
@@ -142,9 +132,6 @@
             <source id="audioSource" src="" type="audio/mp3">
             Your browser does not support the audio element.
         </audio>
-
-        <!-- Buffering Indicator -->
-        <div id="loadingIndicator" class="loading">Buffering... Please wait</div>
 
         <div class="controls">
             <button onclick="skip(-30)">-30s</button>
@@ -323,28 +310,6 @@
                 currentTrack.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             }
         }
-
-        //Show buffering
-        window.onload = function() {
-        const podcastPlayer = document.getElementById('podcastPlayer');
-        const loadingIndicator = document.getElementById('loadingIndicator');
-
-        // Attach event listeners
-        podcastPlayer.addEventListener('waiting', () => {
-            loadingIndicator.classList.add('active');
-        });
-
-        podcastPlayer.addEventListener('canplay', () => {
-            loadingIndicator.classList.remove('active');
-        });
-
-        podcastPlayer.addEventListener('playing', () => {
-            loadingIndicator.classList.remove('active');
-        });
-
-        // Other initialization logic
-        };
-
 
         // Play next track
         function playNext() {
