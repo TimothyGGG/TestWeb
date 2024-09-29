@@ -111,6 +111,17 @@
                 width: 50%; /* Ensures tabs stay side-by-side on mobile */
             }
         }
+
+        /* Loading Indicator Styles */
+        .loading {
+            display: none;
+            font-size: 16px;
+            color: #ff5722;
+            margin-top: 10px;
+        }
+        .loading.active {
+            display: block;
+        }
     </style>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/3/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
@@ -131,6 +142,10 @@
             <source id="audioSource" src="" type="audio/mp3">
             Your browser does not support the audio element.
         </audio>
+
+        <!-- Buffering Indicator -->
+        <div id="loadingIndicator" class="loading">Buffering... Please wait</div>
+
         <div class="controls">
             <button onclick="skip(-30)">-30s</button>
             <button onclick="skip(30)">+30s</button>
@@ -229,7 +244,7 @@
             ],
             book4: [
                 //{ src: 'https://www.dropbox.com/scl/fi/l9mxvso6h0bcxi112lbbj/301.mp3?rlkey=u4xzxbedx265x8sbavzgmacnh&dl=1', title: 'Book 4 Chapter 1 (by Miro F)' },
-                { src: 'https://www.dropbox.com/scl/fi/85e11exobdxxjaf3gekg0/402.mp3?rlkey=i7hjiff3z2qn9nbpelku2g3ef&st=bfmpn432&dl=2', title: 'Book 4 Chapter 2 (by Lucas vB)' }
+                { src: 'https://www.dropbox.com/scl/fi/85e11exobdxxjaf3gekg0/402.mp3?rlkey=i7hjiff3z2qn9nbpelku2g3ef&st=bfmpn432&dl=1', title: 'Book 4 Chapter 2 (by Lucas vB)' }
             ]
         };
 
@@ -308,6 +323,28 @@
                 currentTrack.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             }
         }
+
+        //Show buffering
+        window.onload = function() {
+        const podcastPlayer = document.getElementById('podcastPlayer');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+
+        // Attach event listeners
+        podcastPlayer.addEventListener('waiting', () => {
+            loadingIndicator.classList.add('active');
+        });
+
+        podcastPlayer.addEventListener('canplay', () => {
+            loadingIndicator.classList.remove('active');
+        });
+
+        podcastPlayer.addEventListener('playing', () => {
+            loadingIndicator.classList.remove('active');
+        });
+
+        // Other initialization logic
+        };
+
 
         // Play next track
         function playNext() {
