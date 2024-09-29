@@ -331,6 +331,15 @@
             bufferingMessage.style.display = 'none';
         });
 
+        // Show buffering message when seeking
+        audioPlayer.addEventListener('seeking', () => {
+            bufferingMessage.style.display = 'block';
+        });
+
+        audioPlayer.addEventListener('seeked', () => {
+            bufferingMessage.style.display = 'none';
+        });
+
         // Play next track
         function playNext() {
             const current = document.querySelector('.track-list .current');
