@@ -152,7 +152,7 @@
 
         <!-- Tabs -->
         <div class="tabs">
-            <button class="tablinks" onclick="openBook(event, 'book1')">Book 1</button>
+            <button class="tablinks" onclick="openBook(event, 'book1')" id="defaultTab">Book 1</button>
             <button class="tablinks" onclick="openBook(event, 'book2')">Book 2</button>
         </div>
         <div class="tabs">
@@ -161,7 +161,7 @@
         </div>
         <div class="tabs">
             <button class="tablinks" onclick="openBook(event, 'book5')">Book 5</button>
-            <button class="tablinks" onclick="openBook(event, 'book6')" id="defaultTab">Book 6</button>
+            <button class="tablinks" onclick="openBook(event, 'book6')">Book 6</button>
         </div>
 
         <!-- Tab content for Book 1 -->
@@ -217,7 +217,7 @@
     <script>
         const books = {
             book1: [
-                { src: 'https://www.dropbox.com/scl/fi/856zqr0gvrlrnwsykrnyg/000.mp3?rlkey=ed012wj4b4o7xwu5gl7mybrtk&dl=1', title: 'Intro (by Timothy)' },
+                { src: 'https://www.dropbox.com/scl/fi/856zqr0gvrlrnwsykrnyg/000.mp3?rlkey=ed012wj4b4o7xwu5gl7mybrtk&st=pglrreyp&dl=1', title: 'Intro (by Timothy)' },
                 { src: 'https://www.dropbox.com/scl/fi/5yz0kmmhvfapc9ttf4rmj/101.mp3?rlkey=u7rxrn806wp6prk4i843hxpwy&dl=1', title: 'Book 1 Chapter 1 (by Timothy)' },
                 { src: 'https://www.dropbox.com/scl/fi/pbkisu81thkx3lxog850w/102.mp3?rlkey=pi1ek8zdcypfrt6zf55lay4di&dl=1', title: 'Book 1 Chapter 2 (by Robin Kwak)' },
                 { src: 'https://www.dropbox.com/scl/fi/su0dka53xb3bdjjqwrtjb/103.mp3?rlkey=lmkqqudgba70sk7ivgq8258e5&dl=1', title: 'Book 1 Chapter 3 (by Eva S)' },
@@ -288,9 +288,9 @@
                 { src: 'https://www.dropbox.com/scl/fi/gn3iuc0w1d860sxquk66f/604.mp3?rlkey=ltiuj4zl2m1h8lo3xqhv68cl5&st=zevu2tez&dl=1', title: 'Book 6 Chapter 4 (by Jasmijn dV)' },
                 { src: 'https://www.dropbox.com/scl/fi/vmowtc5dp9fvggm1v7qmp/605.mp3?rlkey=iosgv041y72mws36bvg9e815z&st=gd6e2d1i&dl=1', title: 'Book 6 Chapter 5 (by Lucas vB)' },
                 { src: 'https://www.dropbox.com/scl/fi/b1egte0qkjadjg3tbgy1u/606.mp3?rlkey=6m29hhu13vdwgv793pstz50ja&st=bhp89m1w&dl=1', title: 'Book 6 Chapter 6 (by Eva S)' },
-                { src: 'https://www.dropbox.com/scl/fi/9s1r85y2g7nc3nk2vt9e8/607.mp3?rlkey=cd44ylxfcx4l6njcpc34bbjrh&st=p3z8as8d&dl=1', title: 'Book 6 Chapter 7 (by Miro F)' }
-              //  { src: '', title: 'Book 6 Chapter 8 (by Timothy)' }
-              //  { src: '', title: 'Book 6 Chapter 9 (by All)' }
+                { src: 'https://www.dropbox.com/scl/fi/9s1r85y2g7nc3nk2vt9e8/607.mp3?rlkey=cd44ylxfcx4l6njcpc34bbjrh&st=p3z8as8d&dl=1', title: 'Book 6 Chapter 7 (by Miro F)' },
+                { src: 'https://www.dropbox.com/scl/fi/p5gl0yac3qra6ttzttw2o/608.mp3?rlkey=p1q3l6wdun6nh57athhv49dvq&st=1mshu5sr&dl=1', title: 'Book 6 Chapter 8 (by Pim vdM / All)' },
+                { src: 'https://www.dropbox.com/scl/fi/gjr1bvrverb8sgwsm4di2/609.mp3?rlkey=wl6rj0njyb07v4zhzz6awyhjx&st=oycq7lff&dl=1', title: 'Book 6 Chapter 9 (by All)' }
             ]
         };
 
